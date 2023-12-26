@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Letter I Counter</title>
+</head>
+<body>
+
+<h1>Letter I Counter</h1>
+
+<div>
+    <label for="textInput">Enter text:</label>
+    <textarea id="textInput" rows="4" cols="50"></textarea>
+</div>
+
+<button onclick="countLetterI()">Count 'I'</button>
+
+<div>
+    <p>Result: <span id="result"></span></p>
+</div>
+
+<script>
+    async function countLetterI() {
+        // Get the text input from the user
+        var textInput = document.getElementById("textInput").value;
+
+        try {
+            // Send a POST request to the backend
+            const response = await fetch('http://localhost/api/countI', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ text: textInput })
+            });
+
+            // Check if the request was successful (status code 200)
+            if (response.ok) {
+                const data = await response.json();
+
+                // Display the result on the web page
+                document.getElementById("result").innerText = data.count;
+            } else {
+                console.error('Error:', response.status, response.statusText);
+                // Handle error scenarios
+            }
+        } catch (error) {
+            console.error('Error:', error.message);
+            // Handle other types of errors
+        }
+    }
+</script>
+
+</body>
+</html>
